@@ -1,0 +1,19 @@
+#config_version=5
+mode:
+  start_events: start_mode1
+  stop_events: stop_mode1
+
+multiball_locks:
+    lock_mb1:
+        lock_devices: bd_lockA
+        balls_to_lock: 3
+        balls_to_replace: 2
+        reset_count_for_current_player_events: multiball_lock_lock_mb1_full
+        disable_events: multiball_lock_lock_mb1_full
+
+    lock_mb2:
+        lock_devices: bd_lockB
+        balls_to_lock: 3
+        balls_to_replace: 2
+        reset_count_for_current_player_events: multiball_lock_lock_mb2_full
+        disable_events: multiball_lock_lock_mb2_full
