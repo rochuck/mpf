@@ -72,8 +72,7 @@ class TestMultiBallStackedTrad(MpfGameTestCase):
         # we now start another "add 2" multiball for 4 balls on the playfield
         # The problem is that the second multiball has the property of "balls_added_live" set 
         # incorrectly in this case, which ends up trying to add too many balls to the playfield
-        # which results in two extra balls queued from the trough, one of which makes it to the playfield
-
+        # which results in an extra balls queued from the trough
 
         # lock one ball in second ball lock, another should should go to the playfield from the trough 52.001)
         self.hit_switch_and_run("s_lockB1", 10)
@@ -88,7 +87,7 @@ class TestMultiBallStackedTrad(MpfGameTestCase):
         # lock third ball, starting multiball, all balls should be released from the second lock (72.001)
         # resulting in 4 balls on the playfield. But an extra ball is requested from the
         # trough resulting in 5 balls on the playfield
-        
+
         self.hit_switch_and_run("s_lockB3", 15)
         self.assertEqual(0, self.machine.ball_devices["bd_lockB"].balls)
         self.assertEqual(4, self.machine.playfield.balls)  # <=== error
