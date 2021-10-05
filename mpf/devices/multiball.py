@@ -77,25 +77,22 @@ class Multiball(EnableDisableMixin, SystemWideDevice, ModeDevice):
 
     def _handle_balls_in_play_and_balls_live(self):
         ball_count = self.config['ball_count'].evaluate([])
-        # balls_to_replace should not be balls in play, to work correctly
-        # with stacked "add" multiballs, otherwise the ball counts get messed up
-        # 1 seems to be a good typical value but is not necessarily correct either
-        # depending on the scenario.
-        balls_to_replace = 1 if self.config['replace_balls_in_play'] else 0        
-        self.debug_log("Going to add an additional {} balls for replace_balls_in_play".format(balls_to_replace))
 
         if self.config['ball_count_type'] == "total":
             # policy: total balls
+            balls_to_replace = self.machine.game.balls_in_play if self.config['replace_balls_in_play'] else 0
             if ball_count > self.machine.game.balls_in_play:
                 self.balls_added_live = ball_count - self.machine.game.balls_in_play
                 self.machine.game.balls_in_play = ball_count
             self.balls_live_target = ball_count
         else:
             # policy: add balls
+            balls_to_replace = 1 if self.config['replace_balls_in_play'] else 0
             self.balls_added_live = ball_count
             self.machine.game.balls_in_play += self.balls_added_live
             self.balls_live_target = self.machine.game.balls_in_play
 
+        self.debug_log("Going to add an additional {} balls for replace_balls_in_play".format(balls_to_replace))
         self.balls_added_live += balls_to_replace
 
     @event_handler(10)
