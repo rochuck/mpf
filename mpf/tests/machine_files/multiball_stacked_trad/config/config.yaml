@@ -1,0 +1,98 @@
+#config_version=5
+
+game:
+    balls_per_game: 1
+
+coils:
+    eject_coil1:
+        number:
+    eject_coil2:
+        number:
+    eject_coilA:
+        number:
+    eject_coilB:
+        number:
+
+switches:
+    s_start:
+        number:
+        tags: start
+    s_ball_switch1:
+        number:
+    s_ball_switch2:
+        number:
+    s_ball_switch3:
+        number:
+    s_ball_switch4:
+        number:
+    s_ball_switch5:
+        number:
+    s_lockA1:
+        number:
+    s_lockA2:
+        number:
+    s_lockA3:
+        number:
+    s_lockB1:
+        number:
+    s_lockB2:
+        number:
+    s_lockB3:
+        number:
+    s_ball_switch_launcher:
+        number:
+
+playfields:
+    playfield:
+        default_source_device: bd_launcher
+        tags: default
+
+ball_devices:
+    bd_trough:
+        eject_coil: eject_coil1
+        ball_switches: s_ball_switch1, s_ball_switch2, s_ball_switch3, s_ball_switch4, s_ball_switch5
+        confirm_eject_type: target
+        eject_targets: bd_launcher
+        tags: trough, drain, home
+    bd_launcher:
+        eject_coil: eject_coil2
+        ball_switches: s_ball_switch_launcher
+        confirm_eject_type: target
+        eject_timeouts: 2s
+    # two traditional physical multiball lock devices
+    bd_lockA:
+        eject_coil: eject_coilA
+        ball_switches: s_lockA1, s_lockA2, s_lockA3
+        eject_timeouts: 2s
+    bd_lockB:
+        eject_coil: eject_coilB
+        ball_switches: s_lockB1, s_lockB2, s_lockB3
+        eject_timeouts: 2s        
+modes:
+    - mode1
+
+
+multiballs:
+    # two three ball multiballs (i.e. each add two balls)
+    mb1:
+        ball_count: 2
+        ball_count_type: add
+        ball_locks: bd_lockA
+        replace_balls_in_play: true
+        shoot_again: 1ms
+        enable_events: mb1_enable
+        disable_events: mb1_disable
+        start_events: multiball_lock_lock_mb1_full
+        stop_events: mb1_stop
+    mb2:
+        ball_count: 2
+        ball_count_type: add
+        ball_locks: bd_lockB
+        replace_balls_in_play: true
+        shoot_again: 1ms
+        enable_events: mb2_enable
+        disable_events: mb2_disable
+        start_events: multiball_lock_lock_mb2_full
+        stop_events: mb2_stop
+
+
